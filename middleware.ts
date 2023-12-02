@@ -1,7 +1,17 @@
 import { authMiddleware } from "@clerk/nextjs";
 
-export default authMiddleware({});
+const middleware = authMiddleware();
+
+export default middleware;
 
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  api: {
+    bodyParser: false, // Enable reading of request body
+  },
+  ignoredRoutes: [
+    "/_next/static/chunks", // Adjust this based on your project structure
+  ],
 };
+
+// Exporting the middleware function directly for use in API routes
+export { middleware };
